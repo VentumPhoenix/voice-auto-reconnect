@@ -1,0 +1,6 @@
+node_modules/
+coverage/
+# local Vencord checkout for testing
+vencord/
+*.log
+.DS_Store

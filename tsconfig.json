@@ -1,0 +1,16 @@
+{
+    // Only the Discord-independent parts are type-checked here.
+    // index.ts and settings.ts depend on Vencord's path aliases and are checked by
+    // the "vencord" CI job inside a real Vencord checkout.
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "lib": ["ES2023", "DOM"],
+        "strict": true,
+        "noEmit": true,
+        "skipLibCheck": true,
+        "types": ["node"]
+    },
+    "include": ["src/voiceAutoReconnect/logic.ts", "tests/**/*.ts", "vitest.config.ts"]
+}

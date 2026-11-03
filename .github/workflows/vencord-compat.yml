@@ -1,0 +1,61 @@
+name: Vencord compatibility
+
+# Daily check against the latest Vencord main. On failure an issue labelled "compat"
+# is opened (or updated); the next successful run closes it again.
+
+on:
+    schedule:
+        - cron: "23 5 * * *"
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: vencord-compat
+    cancel-in-progress: false
+
+jobs:
+    compat:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            issues: write
+        steps:
+            - name: Checkout Vencord main
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  repository: Vendicated/Vencord
+                  ref: main
+                  persist-credentials: false
+
+            - name: Checkout plugin
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  path: _plugin
+                  persist-credentials: false
+
+            - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+            - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+              with:
+                  node-version: 24
+                  cache: pnpm
+
+            - name: Build, typecheck and lint inside Vencord
+              id: check
+              continue-on-error: true
+              run: bash _plugin/scripts/ci/vencord-check.sh .
+
+            - name: Open, update or close compat issue
+              if: always()
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  OUTCOME: ${{ steps.check.outcome }}
+                  VENCORD_SHA: ${{ steps.check.outputs.vencord_sha }}
+                  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+              run: bash _plugin/scripts/ci/report-compat.sh
+
+            - name: Fail the run if the check failed
+              if: steps.check.outcome != 'success'
+              run: exit 1

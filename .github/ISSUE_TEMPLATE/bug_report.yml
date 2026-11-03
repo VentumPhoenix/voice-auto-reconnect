@@ -1,0 +1,65 @@
+name: Bug report
+description: Something does not work as expected (false alarm, no reconnect, error message, ...)
+labels: ["bug"]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Thanks for reporting! Please **never** post your Discord token or account data.
+              Logs from the DevTools console (Ctrl+Shift+I) are very helpful. Enable the
+              `debugLogging` setting first and filter the console for `VoiceAutoReconnect`.
+
+    - type: dropdown
+      id: kind
+      attributes:
+          label: What happened?
+          options:
+              - Voice died, but the plugin did not react
+              - The plugin reconnected although voice was fine (false alarm)
+              - Reconnect did not work / ended up in a different state
+              - "\"incompatible with current Discord version\" message"
+              - Something else
+      validations:
+          required: true
+
+    - type: textarea
+      id: description
+      attributes:
+          label: Description
+          description: What did you do, what did you expect, what happened instead?
+      validations:
+          required: true
+
+    - type: dropdown
+      id: client
+      attributes:
+          label: Client
+          options:
+              - Discord desktop (Vencord injected)
+              - Vesktop
+              - Browser (Vencord extension / userscript)
+      validations:
+          required: true
+
+    - type: input
+      id: versions
+      attributes:
+          label: Versions
+          description: Plugin version / commit and Vencord commit (Settings → Vencord shows the Vencord version)
+          placeholder: "plugin v0.1.0, Vencord 1.15.15 (abc1234)"
+      validations:
+          required: true
+
+    - type: textarea
+      id: settings
+      attributes:
+          label: Plugin settings
+          description: Mode and any thresholds you changed from the defaults
+          placeholder: "mode: notifyAndReconnect, staleSeconds: 12"
+
+    - type: textarea
+      id: logs
+      attributes:
+          label: Console log
+          description: Lines starting with "VoiceAutoReconnect" (with debugLogging enabled). Remove anything private.
+          render: text

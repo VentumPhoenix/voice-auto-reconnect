@@ -1,0 +1,48 @@
+{
+    "name": "vencord-voice-autoreconnect",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Vencord plugin that detects when Discord voice silently dies (red connection bars, no audio in or out, still shown as connected) and automatically reconnects or notifies you.",
+    "license": "GPL-3.0-or-later",
+    "author": "VentumPhoenix",
+    "homepage": "https://github.com/VentumPhoenix/voice-auto-reconnect#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/VentumPhoenix/voice-auto-reconnect.git"
+    },
+    "bugs": {
+        "url": "https://github.com/VentumPhoenix/voice-auto-reconnect/issues"
+    },
+    "keywords": [
+        "vencord",
+        "vencord-plugin",
+        "vencord-userplugin",
+        "discord",
+        "discord-voice",
+        "rtc",
+        "auto-reconnect",
+        "voice-chat"
+    ],
+    "type": "module",
+    "scripts": {
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "typecheck": "tsc --noEmit",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "coverage": "vitest run --coverage",
+        "check": "npm run lint && npm run typecheck && npm run coverage"
+    },
+    "engines": {
+        "node": ">=22"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@types/node": "^26.6.6",
+        "@vitest/coverage-v8": "^5.1.0",
+        "eslint": "^10.14.0",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.72.1",
+        "vitest": "^5.1.0"
+    }
+}
